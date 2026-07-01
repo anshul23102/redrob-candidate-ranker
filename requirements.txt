@@ -1,0 +1,14 @@
+# Core (ranking runtime — CPU only, no network at rank time)
+numpy>=1.26,<3
+orjson>=3.9          # fast JSONL parsing of the 100K pool
+PyYAML>=6.0          # submission_metadata.yaml
+tqdm>=4.66           # progress bars for offline steps
+
+# Semantic layer + ML lift (used OFFLINE for precompute; rank-time loads artifacts only)
+sentence-transformers>=2.7   # local bi-encoder + cross-encoder (bge-small / MiniLM)
+rank-bm25>=0.2.2             # lexical retrieval over career descriptions
+scikit-learn>=1.4           # calibration / metrics helpers
+lightgbm>=4.3               # optional LambdaMART re-ranker (NDCG objective)
+
+# Demo sandbox
+streamlit>=1.35
