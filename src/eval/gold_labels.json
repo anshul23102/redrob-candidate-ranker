@@ -1,0 +1,25 @@
+{
+  "_doc": "Hand-labeled relevance tiers (0-4) for a stratified 55-candidate gold set. Labeled by holistic JD review of full profiles, INDEPENDENT of the scoring formula, to evaluate + tune the ranker (no hidden ground truth is available). tier>=3 == 'relevant' (P@k threshold). Traps (stuffers/honeypots/CV-primary) deliberately included.",
+  "labels": {
+    "CAND_0018499": 4, "CAND_0046525": 4, "CAND_0077337": 4, "CAND_0011687": 4,
+    "CAND_0046064": 4, "CAND_0048558": 3, "CAND_0008425": 4, "CAND_0081846": 4,
+    "CAND_0071974": 4, "CAND_0055905": 3, "CAND_0005260": 3, "CAND_0088025": 4,
+    "CAND_0039754": 2, "CAND_0043860": 3, "CAND_0004402": 3,
+
+    "CAND_0092989": 3, "CAND_0022852": 2, "CAND_0046353": 2, "CAND_0038328": 2,
+    "CAND_0074735": 3, "CAND_0049615": 2, "CAND_0076163": 4, "CAND_0006833": 1,
+    "CAND_0091909": 3, "CAND_0009691": 3,
+
+    "CAND_0037833": 0, "CAND_0013362": 0, "CAND_0047939": 0, "CAND_0084291": 0,
+    "CAND_0011619": 0, "CAND_0002357": 1, "CAND_0067886": 0, "CAND_0005391": 0,
+
+    "CAND_0092182": 0, "CAND_0071009": 0, "CAND_0049120": 0, "CAND_0072407": 0,
+    "CAND_0016317": 0, "CAND_0060726": 0, "CAND_0070774": 0, "CAND_0011383": 0,
+
+    "CAND_0093547": 0, "CAND_0001610": 0, "CAND_0019480": 0, "CAND_0037000": 0,
+    "CAND_0061722": 0, "CAND_0095140": 0,
+
+    "CAND_0088385": 2, "CAND_0046924": 2, "CAND_0067866": 3, "CAND_0069638": 2,
+    "CAND_0098454": 2, "CAND_0053605": 3, "CAND_0077956": 1, "CAND_0073883": 3
+  }
+}

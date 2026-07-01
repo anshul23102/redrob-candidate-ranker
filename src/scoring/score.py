@@ -127,5 +127,6 @@ def score_candidate(c, integrity_fn):
 
     facets = dict(role_fit=rf, role_class=rcls, evidence_fit=ef, ev=ev, skill_trust=st,
                   experience_fit=xf, trajectory_fit=tf, gate=gate, core=core,
-                  availability=availability_mult(c), honeypot=hard, integ_reasons=ireasons)
+                  availability=availability_mult(c), location=location_mult(c),
+                  honeypot=hard, integ_soft=soft, integ_reasons=ireasons)
     return final, facets
