@@ -45,6 +45,13 @@ FRAMEWORK_ONLY = ("langchain tutorial", "wrapper around openai", "prompt enginee
 SERVICES_COMPANIES = ("tcs", "tata consultancy", "infosys", "wipro", "accenture", "cognizant",
                       "capgemini", "tech mahindra", "hcl", "mindtree", "ltimindtree",
                       "mphasis", "l&t infotech")
+# JD: "primary expertise is computer vision, speech, or robotics WITHOUT significant
+# NLP/IR exposure ... you'd be re-learning fundamentals here." → discount when primary.
+CV_SPEECH_ROBOTICS = ("computer vision", "opencv", "image classification", "object detection",
+                      "image segmentation", "convolutional", "resnet", "yolo", "face recognition",
+                      "image moderation", "point cloud", "speech recognition", "text-to-speech",
+                      "asr", "robotics", "slam", "motion planning")
+CV_TITLE = ("computer vision", "vision engineer", "cv engineer", "speech", "robotics", "perception")
 
 # --- Location (JD: Pune/Noida offices; Hyd/Mumbai/Delhi NCR/Blr welcome) -----
 HUB_WEIGHTS = {"pune": 1.0, "noida": 1.0, "delhi": 0.8, "gurgaon": 0.8, "gurugram": 0.8,

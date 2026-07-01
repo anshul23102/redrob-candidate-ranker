@@ -7,7 +7,8 @@ Supporting facets (experience, skill-trust, trajectory) only refine ordering.
 Availability + integrity + location apply as bounded multipliers.
 """
 from src import jd_rubric as R
-from src.schema import joined_text, skill_names, avg_tenure_months, days_inactive
+from src.schema import (joined_text, career_text, headline_text, skill_names,
+                        avg_tenure_months, days_inactive)
 
 PROF_W = {"beginner": 0.3, "intermediate": 0.6, "advanced": 0.85, "expert": 1.0}
 AI_VOCAB = set(R.CORE_EVIDENCE) | set(R.ML_EVIDENCE) | set(R.INFRA_EVIDENCE)
@@ -30,14 +31,35 @@ def role_fit(c):
     return base, cls
 
 
-def evidence_fit(c, text):
-    core = R.count_hits(text, R.CORE_EVIDENCE)
-    ml = R.count_hits(text, R.ML_EVIDENCE)
-    infra = R.count_hits(text, R.INFRA_EVIDENCE)
-    ev = R.count_hits(text, R.EVAL_EVIDENCE)
+def evidence_fit(c):
+    """Read evidence from the WORK (career descriptions), not the headline.
+
+    Headline/summary claims count only at a small discount, so a stuffed one-liner
+    cannot manufacture fit.
+    """
+    cw = career_text(c)
+    hw = headline_text(c)
+    core = R.count_hits(cw, R.CORE_EVIDENCE)
+    ml = R.count_hits(cw, R.ML_EVIDENCE)
+    infra = R.count_hits(cw, R.INFRA_EVIDENCE)
+    ev = R.count_hits(cw, R.EVAL_EVIDENCE)
     score = (0.50 * _sat(core, 3) + 0.25 * _sat(ml, 3)
              + 0.15 * _sat(infra, 2) + 0.10 * _sat(ev, 1))
+    # small credit for headline-only claims (max +0.06) — a hint, not proof
+    hl = R.count_hits(hw, R.CORE_EVIDENCE) + R.count_hits(hw, R.ML_EVIDENCE)
+    score += 0.06 * _sat(hl, 4)
     return min(1.0, score), dict(core=core, ml=ml, infra=infra, eval=ev)
+
+
+def cv_primary_penalty(c, core_desc_hits):
+    """JD disqualifier: CV/speech/robotics-primary without significant IR/NLP exposure."""
+    t = ((c.get("profile") or {}).get("current_title") or "").lower()
+    cw = career_text(c)
+    cv_hits = R.count_hits(cw, R.CV_SPEECH_ROBOTICS)
+    title_cv = any(k in t for k in R.CV_TITLE)
+    if (title_cv or cv_hits >= 2) and core_desc_hits < 3:
+        return 0.55
+    return 1.0
 
 
 def skill_trust(c, text):
@@ -106,18 +128,23 @@ def location_mult(c):
 
 
 def score_candidate(c, integrity_fn):
-    text = joined_text(c)
+    cw = career_text(c)
     rf, rcls = role_fit(c)
-    ef, ev = evidence_fit(c, text)
-    st = skill_trust(c, text)
+    ef, ev = evidence_fit(c)
+    st = skill_trust(c, cw)                        # grounded in the work, not the headline
     xf = experience_fit(c)
-    tf = trajectory_fit(c, text, ev)
+    tf = trajectory_fit(c, cw, ev)
 
-    gate = (rf * ef) ** 0.5                       # consensus of the two pillars
+    gate = (rf * ef) ** 0.5                        # consensus of the two pillars
     core = gate * (0.55 + 0.20 * xf + 0.15 * st + 0.10 * tf)
 
-    # negative cues the JD calls out explicitly
-    if R.count_hits(text, R.RESEARCH_ONLY) or R.count_hits(text, R.FRAMEWORK_ONLY):
+    # CV/speech/robotics-primary without IR exposure (JD disqualifier)
+    cvp = cv_primary_penalty(c, ev["core"])
+    core *= cvp
+
+    # research-only / framework-only cues — a red flag ONLY on otherwise-weak profiles
+    # (avoids nuking a strong engineer who merely mentions "academic"/"research").
+    if ef < 0.4 and (R.count_hits(cw, R.RESEARCH_ONLY) or R.count_hits(cw, R.FRAMEWORK_ONLY)):
         core *= 0.8
 
     hard, soft, ireasons = integrity_fn(c)
@@ -128,5 +155,5 @@ def score_candidate(c, integrity_fn):
     facets = dict(role_fit=rf, role_class=rcls, evidence_fit=ef, ev=ev, skill_trust=st,
                   experience_fit=xf, trajectory_fit=tf, gate=gate, core=core,
                   availability=availability_mult(c), location=location_mult(c),
-                  honeypot=hard, integ_soft=soft, integ_reasons=ireasons)
+                  honeypot=hard, integ_soft=soft, cv_pen=cvp, integ_reasons=ireasons)
     return final, facets

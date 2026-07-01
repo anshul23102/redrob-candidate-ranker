@@ -39,6 +39,24 @@ def joined_text(c):
     return "  ".join(parts).lower()
 
 
+def career_text(c):
+    """Only what the candidate actually DID: role titles + descriptions.
+
+    Evidence is read from here (not the headline) so a buzzword-stuffed headline
+    cannot manufacture fit — the work has to back the claim.
+    """
+    parts = []
+    for j in (c.get("career_history") or []):
+        parts.append(j.get("title") or "")
+        parts.append(j.get("description") or "")
+    return "  ".join(parts).lower()
+
+
+def headline_text(c):
+    p = c.get("profile", {}) or {}
+    return ((p.get("headline") or "") + "  " + (p.get("summary") or "")).lower()
+
+
 def skill_names(c):
     return [(s.get("name") or "").lower() for s in (c.get("skills") or [])]
 
