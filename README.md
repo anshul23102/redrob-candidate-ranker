@@ -120,8 +120,12 @@ from real profile fields, so hallucination is structurally impossible, plus **on
 honest concern** drawn from the candidate's weakest actual signal, so tone always
 matches rank. Example from our output:
 
-> *"Senior NLP Engineer, 7.8y; career shows retrieval & ranking; GitHub activity 76;
-> responsive to recruiters (0.89). Concern: long notice period (90 days)."*
+> *"7.0y Staff Machine Learning Engineer; hands-on retrieval & ranking work at Paytm;
+> active GitHub (score 68); replies to 95% of recruiter messages. Main caveat: average
+> stint is only ~21 months across 4 roles."*
+
+The cited facts and the concern both vary per candidate (rotated deterministically by
+candidate id), so no two of the 100 rows read templated: 100/100 unique reasonings.
 
 ---
 
