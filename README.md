@@ -76,6 +76,9 @@ candidates.jsonl (100K)                        [offline, once]
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+## Methodology
+Full write-up: [docs/METHODOLOGY.md](docs/METHODOLOGY.md) — the data-first design story, scoring math, eval protocol, and what we deliberately did not build.
+
 ## Repo map
 - `rank.py` — the single reproduce command
 - `src/scoring/score.py` — consensus-gated scorer · `src/jd_rubric.py` — JD as code
