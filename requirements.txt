@@ -5,11 +5,8 @@ PyYAML>=6.0          # submission_metadata.yaml
 tqdm>=4.66           # progress bars for offline steps
 openpyxl>=3.1          # XLSX twin of the submission CSV (portal upload format)
 
-# Semantic layer + ML lift (used OFFLINE for precompute; rank-time loads artifacts only)
-sentence-transformers>=2.7   # local bi-encoder + cross-encoder (bge-small / MiniLM)
-rank-bm25>=0.2.2             # lexical retrieval over career descriptions
-scikit-learn>=1.4           # calibration / metrics helpers
-lightgbm>=4.3               # optional LambdaMART re-ranker (NDCG objective)
+# Semantic layer (used OFFLINE for precompute; rank-time loads the shipped artifact only)
+sentence-transformers>=2.7   # MiniLM-L6 embeddings of career descriptions
 
 # Demo sandbox
 streamlit>=1.35
