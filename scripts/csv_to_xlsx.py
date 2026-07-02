@@ -25,7 +25,8 @@ for r in range(2, ws.max_row + 1):
     sc = ws.cell(r, 3)
     sc.value = float(sc.value)
     sc.number_format = "0.000000"
-    ws.cell(r, 4).alignment = Alignment(vertical="top")
+    ws.cell(r, 4).alignment = Alignment(vertical="top", wrap_text=True)
+    ws.row_dimensions[r].height = 42
 # presentation: bold frozen header, sane column widths
 for c in ws[1]:
     c.font = Font(bold=True)
