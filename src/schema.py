@@ -43,7 +43,7 @@ def career_text(c):
     """Only what the candidate actually DID: role titles + descriptions.
 
     Evidence is read from here (not the headline) so a buzzword-stuffed headline
-    cannot manufacture fit — the work has to back the claim.
+    cannot manufacture fit - the work has to back the claim.
     """
     parts = []
     for j in (c.get("career_history") or []):

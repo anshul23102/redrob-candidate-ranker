@@ -4,7 +4,7 @@ Design decision (from data profiling): the spec's ~80 honeypots are 'subtly impo
 profiles. The SHARP, rare signatures (each ~20 in the pool) are true honeypots; the noisy
 `skill_duration > YoE` (fires ~9K times) is a soft inconsistency, NOT a honeypot flag.
 
-We HARD-gate hard-impossibilities out of the top, and only SOFT-discount soft ones —
+We HARD-gate hard-impossibilities out of the top, and only SOFT-discount soft ones -
 because hard-filtering soft signals creates false negatives on real people (JD's spirit).
 """
 from src.schema import parse_date, TODAY

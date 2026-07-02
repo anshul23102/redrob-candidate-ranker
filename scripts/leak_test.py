@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Full-pool trap-leak test: how many traps each scoring variant admits into the true top-100.
 
-This is where design choices show their worth — the gold-set metrics saturate, but at the
+This is where design choices show their worth - the gold-set metrics saturate, but at the
 100-of-100,000 boundary a weighted sum / a missing gate lets traps through. Ablation by
 reconstruction from shared facets, so each column isolates exactly one design decision.
 """

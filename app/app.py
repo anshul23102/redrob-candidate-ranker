@@ -1,4 +1,4 @@
-"""Sandbox demo — run the ranker end-to-end on a small candidate sample (<=100).
+"""Sandbox demo - run the ranker end-to-end on a small candidate sample (<=100).
 
 Satisfies submission_spec §10.5: accepts an uploaded JSONL/JSON sample (or uses the
 bundled 50-candidate sample), runs the EXACT same scoring pipeline as rank.py
@@ -20,23 +20,23 @@ from src.integrity.checks import integrity              # noqa: E402
 from src.reasoning.reason import make_reason            # noqa: E402
 from src.retrieval.semantic import load_semantic, semantic_fit  # noqa: E402
 
-st.set_page_config(page_title="The Last Commit — Candidate Ranker", layout="wide")
+st.set_page_config(page_title="The Last Commit - Candidate Ranker", layout="wide")
 
 st.title("Intelligent Candidate Ranker")
 st.caption("The Last Commit · India Runs Track 1 · consensus-gated, fraud-hardened, "
-           "explainable — CPU-only, offline, ~0.1 ms per candidate")
+           "explainable - CPU-only, offline, ~0.1 ms per candidate")
 
 sem_on = load_semantic(str(ROOT / "artifacts" / "semantic.json"))
 with st.sidebar:
     st.header("How it works")
     st.markdown(
-        "1. **Role consensus gate** — evidence can't rescue a wrong title\n"
-        "2. **Evidence from the work** — career descriptions, not headlines\n"
-        "3. **Integrity layer** — impossible profiles hard-gated (honeypots)\n"
-        "4. **Availability signals** — response rate, recency, notice period\n"
-        "5. **Grounded reasoning** — every claim from real fields + one honest concern"
+        "1. **Role consensus gate** - evidence can't rescue a wrong title\n"
+        "2. **Evidence from the work** - career descriptions, not headlines\n"
+        "3. **Integrity layer** - impossible profiles hard-gated (honeypots)\n"
+        "4. **Availability signals** - response rate, recency, notice period\n"
+        "5. **Grounded reasoning** - every claim from real fields + one honest concern"
     )
-    st.markdown(f"Semantic layer: {'🟢 on (precomputed)' if sem_on else '⚪ off — keyword rubric only'}")
+    st.markdown(f"Semantic layer: {'🟢 on (precomputed)' if sem_on else '⚪ off - keyword rubric only'}")
     topk = st.slider("Show top", 5, 100, 20, 5)
 
 up = st.file_uploader("Upload candidate sample (.json list or .jsonl, ≤100 candidates)",
@@ -69,7 +69,7 @@ if st.button("Rank candidates", type="primary"):
         with st.container(border=True):
             left, right = st.columns([5, 1])
             with left:
-                st.markdown(f"**#{rank} · {p['current_title']}** — "
+                st.markdown(f"**#{rank} · {p['current_title']}** - "
                             f"{p.get('location','?')} · {p['years_of_experience']:.1f}y "
                             f"· `{c['candidate_id']}`")
                 st.markdown(reason)

@@ -28,7 +28,7 @@ def main():
     t0 = time.time()
     has_sem = load_semantic()   # precomputed artifact; falls back to keyword-only if absent
 
-    # Pass 1 — score everyone, keep only (score, id) (tiny memory).
+    # Pass 1 - score everyone, keep only (score, id) (tiny memory).
     scored = []
     n = 0
     for c in load_candidates(args.candidates):
@@ -41,7 +41,7 @@ def main():
     top_ids = {cid for _, cid in top}
     t1 = time.time()
 
-    # Pass 2 — re-fetch the winners for grounded reasoning.
+    # Pass 2 - re-fetch the winners for grounded reasoning.
     by_id = {}
     for c in load_candidates(args.candidates):
         cid = c["candidate_id"]

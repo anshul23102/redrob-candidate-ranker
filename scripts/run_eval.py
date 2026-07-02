@@ -59,7 +59,7 @@ def main():
               f"{m['P10']:>8.3f}{m['composite']:>11.3f}{hp_top10:>7d}")
 
     # show FULL model's ordering of the gold set
-    print("\nFULL model — gold set in ranked order (tier | score | id):")
+    print("\nFULL model - gold set in ranked order (tier | score | id):")
     ranked = sorted(rows.items(), key=lambda kv: (-kv[1][1]["FULL (ours)"], kv[0]))
     for cid, (tier, sc, hp) in ranked:
         flag = "  <-- HONEYPOT" if hp else ""

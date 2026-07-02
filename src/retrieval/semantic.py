@@ -1,6 +1,6 @@
 """Rank-time semantic lookup: loads precomputed per-candidate JD-relevance scalars.
 
-No model, no network, no matrix math at rank time — just a dict lookup of the artifact
+No model, no network, no matrix math at rank time - just a dict lookup of the artifact
 produced offline by scripts/precompute_embeddings.py. Raw max-cosine is rescaled to [0,1]
 using pool percentiles (p50 -> 0, p98 -> 1) so it blends cleanly with the keyword evidence.
 """

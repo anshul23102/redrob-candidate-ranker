@@ -1,4 +1,4 @@
-# Methodology — The Last Commit
+# Methodology - The Last Commit
 ### Intelligent Candidate Discovery & Ranking · India Runs Track 1
 
 ## 1. The premise: reconstruct the recruiter, don't approximate the keywords
@@ -25,40 +25,40 @@ The pool's signals dictated the design:
 ## 3. Scoring: consensus gate over weighted sum
 `core = sqrt(role_fit × evidence_fit) × (0.55 + 0.20·experience + 0.15·skill_trust + 0.10·trajectory)`
 
-A weighted sum lets a stuffed skill list compensate for a wrong title — exactly the
+A weighted sum lets a stuffed skill list compensate for a wrong title - exactly the
 planted trap. A geometric gate collapses when either pillar fails: fraud can spike one
 signal but cannot forge agreement across all of them.
 
-- **role_fit** — current/past titles vs the intelligence-layer role (strong / adjacent /
+- **role_fit** - current/past titles vs the intelligence-layer role (strong / adjacent /
   non-technical), with past-title rescue for people transitioning into ML.
-- **evidence_fit** — read from `career_history` descriptions (what they *did*), not the
+- **evidence_fit** - read from `career_history` descriptions (what they *did*), not the
   headline (what they *claim*). Keyword rubric ⊕ a semantic channel: MiniLM embeddings of
   career text vs five JD facets, precomputed offline, blended as
-  `max(kw, 0.55·kw + 0.45·sem)` — semantic **augments**, never replaces, evidence. This
+  `max(kw, 0.55·kw + 0.45·sem)` - semantic **augments**, never replaces, evidence. This
   rescues the JD's "Tier-5 gem" (elite ranking work described in plain language).
-- **skill_trust** — proficiency × endorsements × months-used, discounted when a claimed
+- **skill_trust** - proficiency × endorsements × months-used, discounted when a claimed
   skill never appears in the described work.
-- **Trajectory / experience** — 6–8y ideal band; anti-title-chaser tenure factor;
+- **Trajectory / experience** - 6–8y ideal band; anti-title-chaser tenure factor;
   services-only-career discount; CV/speech/robotics-primary penalty (all explicit JD
   disqualifiers).
-- **Availability multiplier** — recruiter response rate, recency, open-to-work, notice
+- **Availability multiplier** - recruiter response rate, recency, open-to-work, notice
   period. A perfect profile that won't reply is not a hire (JD, verbatim).
-- **Integrity layer** — hard-gates the impossible (honeypots), soft-discounts the noisy.
-- **Reasoning** — deterministic, field-grounded justification + one honest concern per
+- **Integrity layer** - hard-gates the impossible (honeypots), soft-discounts the noisy.
+- **Reasoning** - deterministic, field-grounded justification + one honest concern per
   ranked candidate. Hallucination is structurally impossible; tone tracks rank.
 
 ## 4. Evaluation without a leaderboard
 No feedback loop exists, so we built one:
-- **Gold set** — 55 hand-labeled candidates (stratified: strong fits, adjacents,
+- **Gold set** - 55 hand-labeled candidates (stratified: strong fits, adjacents,
   keyword-stuffers, honeypots, CV-primary), tiered 0–4 by holistic JD reading,
   independent of the scoring formula. Scored on the challenge's own composite:
   **NDCG@10 0.93 · NDCG@50 0.99 · MAP 0.96 · P@10 1.00 · composite 0.95.**
-- **Full-pool trap-leak test** — traps admitted to the true top-100 of 100,000:
+- **Full-pool trap-leak test** - traps admitted to the true top-100 of 100,000:
   **ours 0/0/0** (honeypots/stuffers/CV-primary) vs 2/33/5 for a naive skill-keyword
   scorer and 2/0/10 for a typical title+skill%+YoE weighted sum.
-- **Ablations** — removing any single defense still leaks 0: the layers overlap by
+- **Ablations** - removing any single defense still leaks 0: the layers overlap by
   design (defense-in-depth), so no single forged signal has a path to the top.
-- **Decision discipline** — the semantic layer was adopted only after this harness
+- **Decision discipline** - the semantic layer was adopted only after this harness
   vetted it (an earlier, looser blend was rejected for over-boosting semantically
   adjacent tier-2s). With effectively one submission attempt, we tune against our own
   measurements, never against hope.
@@ -74,8 +74,8 @@ python rank.py --candidates ./data/candidates.jsonl --out ./the_last_commit.csv
 ```
 
 ## 6. What we deliberately did not do
-- **No LLM calls at rank time** — banned by the rules, and unscalable for a 200K-pool
+- **No LLM calls at rank time** - banned by the rules, and unscalable for a 200K-pool
   production system (the challenge's own stated rationale).
-- **No learned black-box ranker** — we prototyped the idea and dropped it: with 55 labels
+- **No learned black-box ranker** - we prototyped the idea and dropped it: with 55 labels
   it would overfit, and it can't explain a single decision in a Stage-5 interview.
-- **No hard filters on noisy signals** — measured 9% false-negative cost; discounts only.
+- **No hard filters on noisy signals** - measured 9% false-negative cost; discounts only.

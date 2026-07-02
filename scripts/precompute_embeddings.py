@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """OFFLINE precompute: semantic similarity of each candidate's WORK to the JD's core facets.
 
-Runs once (may use network/GPU — this is NOT the ranking step). Ships two artifacts so
+Runs once (may use network/GPU - this is NOT the ranking step). Ships two artifacts so
 rank.py stays offline/CPU/<5min:
   artifacts/semantic.json   {candidate_id: max-cosine-to-JD-facets in [~0,1]}  (small, committable)
   artifacts/cand_emb.npy    full embedding matrix (gitignored; for demo / future rerank)
   artifacts/cand_ids.json   row order for the matrix
 
-Evidence is embedded from career_text (the work), not the headline — same anti-stuffing
+Evidence is embedded from career_text (the work), not the headline - same anti-stuffing
 principle as the keyword layer. This rescues concise strong profiles that describe elite
 work in few keywords (e.g. "owned the ranking layer ... learning-to-rank model").
 """

@@ -1,4 +1,4 @@
-# Core (ranking runtime — CPU only, no network at rank time)
+# Core (ranking runtime - CPU only, no network at rank time)
 numpy>=1.26,<3
 orjson>=3.9          # fast JSONL parsing of the 100K pool
 PyYAML>=6.0          # submission_metadata.yaml

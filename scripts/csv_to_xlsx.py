@@ -2,7 +2,7 @@
 """Convert the submission CSV to XLSX (identical rows/columns).
 
 The bundle's validator requires CSV, but the portal upload widget accepts
-excel/spreadsheet — we ship both, byte-equivalent in content.
+excel/spreadsheet - we ship both, byte-equivalent in content.
 
 Usage: python scripts/csv_to_xlsx.py the_last_commit.csv
 """

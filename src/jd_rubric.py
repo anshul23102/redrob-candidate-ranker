@@ -2,7 +2,7 @@
 
 Everything the JD explicitly rewards / penalizes, as machine-readable evidence sets.
 Kept interpretable on purpose: this is the "reconstruct the recruiter's decision
-function" backbone. The offline embedding/ML lift augments — it does not replace — this.
+function" backbone. The offline embedding/ML lift augments - it does not replace - this.
 """
 
 # --- Title signal (the decisive gate against keyword-stuffers) --------------
@@ -60,7 +60,7 @@ HUB_WEIGHTS = {"pune": 1.0, "noida": 1.0, "delhi": 0.8, "gurgaon": 0.8, "gurugra
 
 # --- Facet weights (consensus backbone) -------------------------------------
 # NOTE: role_fit and evidence_fit are CONSENSUS-GATED in scoring (a min-style gate),
-# not simply summed — a big skill_trust cannot rescue a wrong title.
+# not simply summed - a big skill_trust cannot rescue a wrong title.
 WEIGHTS = {
     "role_fit":       0.30,
     "evidence_fit":   0.34,

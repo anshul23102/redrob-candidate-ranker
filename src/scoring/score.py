@@ -1,7 +1,7 @@
 """Consensus-gated multi-signal scorer.
 
 Not a weighted sum. role_fit and evidence_fit are the two pillars, combined with a
-GEOMETRIC gate (sqrt(role*evidence)) so either pillar being weak collapses the score —
+GEOMETRIC gate (sqrt(role*evidence)) so either pillar being weak collapses the score -
 this is what makes keyword-stuffers (great skills, wrong title) unable to reach the top.
 Supporting facets (experience, skill-trust, trajectory) only refine ordering.
 Availability + integrity + location apply as bounded multipliers.
@@ -45,7 +45,7 @@ def evidence_fit(c):
     ev = R.count_hits(cw, R.EVAL_EVIDENCE)
     score = (0.50 * _sat(core, 3) + 0.25 * _sat(ml, 3)
              + 0.15 * _sat(infra, 2) + 0.10 * _sat(ev, 1))
-    # small credit for headline-only claims (max +0.06) — a hint, not proof
+    # small credit for headline-only claims (max +0.06) - a hint, not proof
     hl = R.count_hits(hw, R.CORE_EVIDENCE) + R.count_hits(hw, R.ML_EVIDENCE)
     score += 0.06 * _sat(hl, 4)
     return min(1.0, score), dict(core=core, ml=ml, infra=infra, eval=ev)
@@ -132,7 +132,7 @@ def score_candidate(c, integrity_fn, sem_fit=None):
     rf, rcls = role_fit(c)
     ef_kw, ev = evidence_fit(c)
     # Blend semantic relevance (precomputed) with keyword evidence. Semantic AUGMENTS
-    # keyword evidence (rescues concise elite profiles) but never replaces it — pure
+    # keyword evidence (rescues concise elite profiles) but never replaces it - pure
     # embedding similarity on short texts is too noisy to stand alone, and wrong-role /
     # impossible profiles stay gated below regardless.
     ef = ef_kw if sem_fit is None else max(ef_kw, 0.55 * ef_kw + 0.45 * sem_fit)
@@ -147,7 +147,7 @@ def score_candidate(c, integrity_fn, sem_fit=None):
     cvp = cv_primary_penalty(c, ev["core"])
     core *= cvp
 
-    # research-only / framework-only cues — a red flag ONLY on otherwise-weak profiles
+    # research-only / framework-only cues - a red flag ONLY on otherwise-weak profiles
     # (avoids nuking a strong engineer who merely mentions "academic"/"research").
     if ef < 0.4 and (R.count_hits(cw, R.RESEARCH_ONLY) or R.count_hits(cw, R.FRAMEWORK_ONLY)):
         core *= 0.8
