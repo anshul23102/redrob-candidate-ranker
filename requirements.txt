@@ -3,6 +3,7 @@ numpy>=1.26,<3
 orjson>=3.9          # fast JSONL parsing of the 100K pool
 PyYAML>=6.0          # submission_metadata.yaml
 tqdm>=4.66           # progress bars for offline steps
+openpyxl>=3.1          # XLSX twin of the submission CSV (portal upload format)
 
 # Semantic layer + ML lift (used OFFLINE for precompute; rank-time loads artifacts only)
 sentence-transformers>=2.7   # local bi-encoder + cross-encoder (bge-small / MiniLM)
