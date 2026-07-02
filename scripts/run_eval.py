@@ -8,6 +8,7 @@ import json
 from src.schema import load_candidates
 from src.scoring.score import score_candidate
 from src.integrity.checks import integrity
+from src.retrieval.semantic import load_semantic, semantic_fit
 from src import jd_rubric as R
 from src.eval.metrics import composite
 
@@ -32,11 +33,13 @@ def variants(c, f):
 
 
 def main():
+    sem_on = load_semantic()
+    print(f"(semantic layer: {'ON' if sem_on else 'OFF (keyword-only)'})")
     rows = {}          # cid -> (tier, {variant: score}, honeypot)
     for c in load_candidates("./data/candidates.jsonl"):
         cid = c["candidate_id"]
         if cid in GOLD:
-            _, f = score_candidate(c, integrity)
+            _, f = score_candidate(c, integrity, sem_fit=semantic_fit(cid))
             rows[cid] = (GOLD[cid], variants(c, f), f["honeypot"])
             if len(rows) == len(GOLD):
                 break

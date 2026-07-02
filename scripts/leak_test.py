@@ -8,6 +8,7 @@ reconstruction from shared facets, so each column isolates exactly one design de
 from src.schema import load_candidates, skill_names
 from src.scoring.score import score_candidate, AI_VOCAB
 from src.integrity.checks import integrity
+from src.retrieval.semantic import load_semantic, semantic_fit
 from src import jd_rubric as R
 
 W = R.WEIGHTS
@@ -15,8 +16,10 @@ AI_TITLE = ("machine learning", "ml engineer", "ai engineer", "data scientist", 
             "applied scientist", "ai research", "ml ", "ai ")
 rows = []
 
+sem_on = load_semantic()
+print(f"(semantic layer: {'ON' if sem_on else 'OFF (keyword-only)'})")
 for c in load_candidates("./data/candidates.jsonl"):
-    _, f = score_candidate(c, integrity)
+    _, f = score_candidate(c, integrity, sem_fit=semantic_fit(c["candidate_id"]))
     core, avail, loc = f["core"], f["availability"], f["location"]
     soft, hp, cvp = f["integ_soft"], f["honeypot"], f["cv_pen"]
     integ = 0.02 if hp else soft

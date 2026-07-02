@@ -13,6 +13,7 @@ from src.schema import load_candidates
 from src.scoring.score import score_candidate
 from src.integrity.checks import integrity
 from src.reasoning.reason import make_reason
+from src.retrieval.semantic import load_semantic, semantic_fit
 
 HEADER = ["candidate_id", "rank", "score", "reasoning"]
 
@@ -25,12 +26,13 @@ def main():
     args = ap.parse_args()
 
     t0 = time.time()
+    has_sem = load_semantic()   # precomputed artifact; falls back to keyword-only if absent
 
     # Pass 1 — score everyone, keep only (score, id) (tiny memory).
     scored = []
     n = 0
     for c in load_candidates(args.candidates):
-        s, _ = score_candidate(c, integrity)
+        s, _ = score_candidate(c, integrity, sem_fit=semantic_fit(c["candidate_id"]))
         scored.append((s, c["candidate_id"]))
         n += 1
     # Rank by score desc; ties broken by candidate_id ascending (validator rule).
@@ -44,7 +46,7 @@ def main():
     for c in load_candidates(args.candidates):
         cid = c["candidate_id"]
         if cid in top_ids:
-            s, facets = score_candidate(c, integrity)
+            s, facets = score_candidate(c, integrity, sem_fit=semantic_fit(cid))
             by_id[cid] = (c, facets)
             if len(by_id) == len(top_ids):
                 break
