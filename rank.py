@@ -51,12 +51,16 @@ def main():
             if len(by_id) == len(top_ids):
                 break
 
+    # Normalize by the pool max so scores land in [0, 1] with the true ordering intact
+    # (raw scores can exceed 1 after multipliers; a hard cap would forge ties at the top).
+    smax = top[0][0] if top and top[0][0] > 0 else 1.0
+
     with open(args.out, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
         w.writerow(HEADER)
         for rank, (s, cid) in enumerate(top, start=1):
             c, facets = by_id[cid]
-            w.writerow([cid, rank, f"{s:.6f}", make_reason(c, facets)])
+            w.writerow([cid, rank, f"{s / smax:.6f}", make_reason(c, facets)])
 
     dt = time.time() - t0
     print(f"Scored {n} candidates in {t1 - t0:.1f}s, wrote top-{args.topk} to {args.out} "

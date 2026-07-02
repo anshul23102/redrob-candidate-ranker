@@ -1,8 +1,6 @@
 # Core (ranking runtime - CPU only, no network at rank time)
 numpy>=1.26,<3
 orjson>=3.9          # fast JSONL parsing of the 100K pool
-PyYAML>=6.0          # submission_metadata.yaml
-tqdm>=4.66           # progress bars for offline steps
 openpyxl>=3.1          # XLSX twin of the submission CSV (portal upload format)
 
 # Semantic layer (used OFFLINE for precompute; rank-time loads the shipped artifact only)

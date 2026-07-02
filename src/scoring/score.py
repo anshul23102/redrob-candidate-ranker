@@ -155,7 +155,10 @@ def score_candidate(c, integrity_fn, sem_fit=None):
     hard, soft, ireasons = integrity_fn(c)
     integ = 0.02 if hard else soft
     final = core * availability_mult(c) * location_mult(c) * integ
-    final = max(0.0, min(0.999, final))
+    # No upper clamp: capping created artificial ties among the strongest candidates,
+    # which were then ordered by candidate_id instead of true quality (NDCG@10 damage).
+    # rank.py normalizes by the pool max so emitted scores stay in [0, 1].
+    final = max(0.0, final)
 
     facets = dict(role_fit=rf, role_class=rcls, evidence_fit=ef, ev=ev, skill_trust=st,
                   experience_fit=xf, trajectory_fit=tf, gate=gate, core=core,
