@@ -131,10 +131,11 @@ def score_candidate(c, integrity_fn, sem_fit=None):
     cw = career_text(c)
     rf, rcls = role_fit(c)
     ef_kw, ev = evidence_fit(c)
-    # Blend semantic relevance (precomputed) with keyword evidence. `max` rescues concise
-    # strong profiles that describe elite work in few keywords; it can't rescue a wrong
-    # role or an impossible profile (still gated below by role consensus + integrity).
-    ef = ef_kw if sem_fit is None else max(ef_kw, 0.55 * ef_kw + 0.45 * sem_fit, sem_fit * 0.95)
+    # Blend semantic relevance (precomputed) with keyword evidence. Semantic AUGMENTS
+    # keyword evidence (rescues concise elite profiles) but never replaces it — pure
+    # embedding similarity on short texts is too noisy to stand alone, and wrong-role /
+    # impossible profiles stay gated below regardless.
+    ef = ef_kw if sem_fit is None else max(ef_kw, 0.55 * ef_kw + 0.45 * sem_fit)
     st = skill_trust(c, cw)                        # grounded in the work, not the headline
     xf = experience_fit(c)
     tf = trajectory_fit(c, cw, ev)
